@@ -1,10 +1,17 @@
 package ru.otus.hw.dao;
 
+import com.opencsv.bean.CsvToBeanBuilder;
 import lombok.RequiredArgsConstructor;
 import ru.otus.hw.config.TestFileNameProvider;
+import ru.otus.hw.dao.dto.QuestionDto;
 import ru.otus.hw.domain.Question;
+import ru.otus.hw.exceptions.QuestionReadException;
 
-import java.util.ArrayList;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.Reader;
+import java.nio.charset.StandardCharsets;
 import java.util.List;
 
 @RequiredArgsConstructor
@@ -13,11 +20,33 @@ public class CsvQuestionDao implements QuestionDao {
 
     @Override
     public List<Question> findAll() {
-        // Использовать CsvToBean
-        // https://opencsv.sourceforge.net/#collection_based_bean_fields_one_to_many_mappings
-        // Использовать QuestionReadException
-        // Про ресурсы: https://mkyong.com/java/java-read-a-file-from-resources-folder/
-
-        return new ArrayList<>();
+        String questionsFileName = fileNameProvider.getTestFileName();
+        List<QuestionDto> questionDtoList = getQuestionsFromCsv(questionsFileName);
+        return questionDtoList.stream()
+                .map(QuestionDto::toDomainObject)
+                .toList();
     }
+
+
+    private List<QuestionDto> getQuestionsFromCsv(String questionsFileName) {
+        String errMsg = "Can't read the file: " + questionsFileName;
+
+        InputStream inputStream = (getClass().getClassLoader().getResourceAsStream(questionsFileName));
+        if (inputStream == null) {
+            throw new QuestionReadException(errMsg, null);
+        }
+
+        try (Reader reader = new InputStreamReader(inputStream, StandardCharsets.UTF_8)) {
+            return new CsvToBeanBuilder<QuestionDto>(reader)
+                    .withSeparator(';')
+                    .withIgnoreQuotations(true)
+                    .withSkipLines(1) // header is a comment
+                    .withType(QuestionDto.class)
+                    .build()
+                    .parse();
+        } catch (IOException ioE) {
+            throw new QuestionReadException(errMsg, ioE);
+        }
+    }
+
 }
