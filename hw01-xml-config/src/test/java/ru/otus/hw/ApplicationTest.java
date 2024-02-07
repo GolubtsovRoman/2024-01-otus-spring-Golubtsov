@@ -6,9 +6,9 @@ import org.junit.jupiter.api.Test;
 class ApplicationTest {
 
     @Test
-    @DisplayName("check test")
+    @DisplayName("check live test")
     void init() {
-        System.out.println("empty test");
+        System.out.println("It are live!");
     }
 
 }
