@@ -11,7 +11,10 @@ import ru.otus.hw.domain.Student;
 import ru.otus.hw.help.QuestionHelper;
 
 import static org.mockito.ArgumentMatchers.anyString;
-import static org.mockito.Mockito.*;
+import static org.mockito.Mockito.doNothing;
+import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.times;
 
 @DisplayName("Process test student")
 @ExtendWith(MockitoExtension.class)
@@ -44,7 +47,7 @@ class TestServiceImplTest {
         verify(ioService, times(countOfQuestions + 1)).printLine(anyString());
         verify(ioService, times(1)).printFormattedLine(anyString());
         verify(ioService, times(countOfQuestions)).readString();
-        verify(questionDao, times(1)).findAll();
+        verify(questionDao).findAll();
     }
 
 }
