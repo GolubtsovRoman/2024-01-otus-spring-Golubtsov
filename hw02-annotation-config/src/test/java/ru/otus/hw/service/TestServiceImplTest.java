@@ -10,6 +10,7 @@ import ru.otus.hw.dao.QuestionDao;
 import ru.otus.hw.domain.Student;
 import ru.otus.hw.help.QuestionHelper;
 
+import static org.mockito.ArgumentMatchers.anyInt;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.when;
@@ -35,7 +36,7 @@ class TestServiceImplTest {
     void executeTestFor() {
         doNothing().when(ioService).printLine(anyString());
         doNothing().when(ioService).printFormattedLine(anyString());
-        when(ioService.readString()).thenReturn("Answer One");
+        when(ioService.readIntForRangeWithPrompt(anyInt(), anyInt(), anyString(), anyString())).thenReturn(1);
 
         var questions = QuestionHelper.makeExampleQuestions();
         var countOfQuestions = questions.size();
@@ -44,9 +45,10 @@ class TestServiceImplTest {
         Student student = new Student("Golubtsov", "Roman");
         testServiceImpl.executeTestFor(student);
 
-        verify(ioService, times(countOfQuestions + 1)).printLine(anyString());
-        verify(ioService, times(1)).printFormattedLine(anyString());
-        verify(ioService, times(countOfQuestions)).readString();
+        int countOfPrintLine = 1 + countOfQuestions * 2 + 1; // empty line + questions * (border + question) +  border
+        verify(ioService, times(countOfPrintLine)).printLine(anyString());
+        verify(ioService).printFormattedLine(anyString());
+        verify(ioService, times(countOfQuestions)).readIntForRangeWithPrompt(anyInt(), anyInt(), anyString(), anyString());
         verify(questionDao).findAll();
     }
 
