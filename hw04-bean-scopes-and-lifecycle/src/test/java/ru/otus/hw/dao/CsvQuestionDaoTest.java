@@ -29,8 +29,8 @@ class CsvQuestionDaoTest {
     private AppProperties appProperties;
 
 
-    @Test
     @DisplayName("should be correct read CSV")
+    @Test
     void findAllGood() {
         given(appProperties.getTestFileName()).willReturn(QUESTION_FILE_NAME);
 
@@ -40,8 +40,8 @@ class CsvQuestionDaoTest {
         assertThat(expectedQuestions).hasSameElementsAs(resultQuestions);
     }
 
-    @Test
     @DisplayName("should be throw exception")
+    @Test
     void findAllException() {
         given(appProperties.getTestFileName()).willReturn(NO_EXIST_QUESTION_FILE_NAME);
 

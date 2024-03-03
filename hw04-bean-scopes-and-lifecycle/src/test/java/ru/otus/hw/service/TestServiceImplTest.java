@@ -28,8 +28,8 @@ class TestServiceImplTest {
     private QuestionDao questionDao;
 
 
-    @Test
     @DisplayName("should be execute test for a student")
+    @Test
     void executeTestFor() {
         doNothing().when(ioService).printLine(anyString());
         doNothing().when(ioService).printFormattedLine(anyString(), anyInt(), anyString());
