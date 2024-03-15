@@ -131,4 +131,5 @@ class JdbcBookRepositoryTest {
         var dbGenres = getDbGenres();
         return getDbBooks(dbAuthors, dbGenres);
     }
+
 }
