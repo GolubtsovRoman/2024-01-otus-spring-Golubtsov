@@ -15,8 +15,8 @@ import ru.otus.hw.models.Genre;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.Collections;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -36,9 +36,9 @@ public class JdbcBookRepository implements BookRepository {
         try {
             Book book = namedParameterJdbcOperations.query("""
                             select b.id, b.title, b.author_id, a.full_name, bg.genre_id, g.name from books b
-                            left join authors a ON b.author_id = a.id
-                            left join books_genres bg on b.id = bg.book_id
-                            left join genres g on bg.genre_id = g.id
+                            inner join authors a ON b.author_id = a.id
+                            inner join books_genres bg on b.id = bg.book_id
+                            inner join genres g on bg.genre_id = g.id
                             where b.id = :id;
                             """,
                     params, new BookResultSetExtractor());
@@ -197,7 +197,7 @@ public class JdbcBookRepository implements BookRepository {
             String fullName = rs.getString("full_name");
             Author author = new Author(authorId, fullName);
 
-            List<Genre> genres = new LinkedList<>();
+            List<Genre> genres = new ArrayList<>();
             do {
                 long geneId = rs.getLong("genre_id");
                 String genreName = rs.getString("name");

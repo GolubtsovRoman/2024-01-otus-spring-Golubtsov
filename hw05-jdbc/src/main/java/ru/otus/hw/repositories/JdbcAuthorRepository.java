@@ -17,6 +17,7 @@ import java.util.Optional;
 @Repository
 @RequiredArgsConstructor
 public class JdbcAuthorRepository implements AuthorRepository {
+
     private final NamedParameterJdbcOperations namedParameterJdbcOperations;
 
     @Override
@@ -27,14 +28,12 @@ public class JdbcAuthorRepository implements AuthorRepository {
     @Override
     public Optional<Author> findById(long id) {
         Map<String, Object> params = Collections.singletonMap("id", id);
-        Author author;
-        try {
-            author = namedParameterJdbcOperations.queryForObject("select id, full_name from authors where id = :id",
-                    params, new AuthorRowMapper());
-        } catch (DataAccessException dae) {
-            author = null;
+        var authors = namedParameterJdbcOperations.query("select id, full_name from authors where id = :id",
+                params, new AuthorRowMapper());
+        if (authors.size() == 1) {
+            return Optional.of(authors.get(0));
         }
-        return Optional.ofNullable(author);
+        return Optional.empty();
     }
 
 
