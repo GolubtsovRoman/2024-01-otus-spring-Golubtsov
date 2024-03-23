@@ -10,7 +10,7 @@ import ru.otus.hw.models.Author;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-@DisplayName("Репозиторий Author доожен")
+@DisplayName("Репозиторий Author должен")
 @DataJpaTest
 @Import(AuthorRepositoryJpa.class)
 class AuthorRepositoryJpaTest {
