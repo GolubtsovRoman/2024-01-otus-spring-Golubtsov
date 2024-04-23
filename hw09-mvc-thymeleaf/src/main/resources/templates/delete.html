@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8"/>
+    <title>Edit book</title>
+    <!-- Оформление взято из примера "как есть" -->
+    <style type="text/css">
+        body {
+            padding: 50px;
+        }
+
+        label {
+            display: inline-block;
+            width: 100px;
+        }
+
+        input:read-only {
+            background: lightgray;
+        }
+
+        .row {
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+
+<form id="delete-form" action="delete.html" th:method="post" th:action="@{/delete/__${bookDto.id}__}"
+      th:object="${bookDto}">
+    <h3>Book Info:</h3>
+
+    <div class="row">
+        <label for="id-input">ID:</label>
+        <input id="id-input" name="bookId" type="text" readonly="readonly" value="1" th:value="*{id}"/>
+    </div>
+
+    <div class="row">
+        <label for="book-title-input">Title:</label>
+        <input id="book-title-input" type="text" readonly="readonly" value="Title of book" th:value="*{title}"/>
+    </div>
+
+    <div class="row">
+        <label for="book-author-input">Title:</label>
+        <input id="book-author-input" type="text" readonly="readonly" value="Author of book"
+               th:value="*{getAuthorDto().getFullName()}"/>
+    </div>
+
+    <div class="row">
+        <label for="book-genre-input">Genres:</label>
+        <input id="book-genre-input" type="text" readonly="readonly" value="Genres of book" th:value="*{genersToString()}"/>
+    </div>
+
+    <h1>Are you understand what you do?!</h1>
+    <div class="row">
+        <button type="submit">DELETE</button>
+        <a href="list.html" th:href="@{/}"><button type="button">Cancel</button></a>
+    </div>
+</form>
+
+</body>
+</html>
