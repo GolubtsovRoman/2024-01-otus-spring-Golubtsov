@@ -14,6 +14,10 @@
             width: 100px;
         }
 
+        input, select {
+            width: 400px;
+        }
+
         input:read-only {
             background: lightgray;
         }
@@ -49,17 +53,13 @@
         </select>
     </div>
 
-
     <div class="row">
-        <label for="book-genre-input">Genres:</label>
-        <input id="book-genre-input" type="text" readonly="readonly" value="Genres of book" th:value="*{genersToString()}"/>
-    </div>
-    <div class="row">
-        <label for="book-genre-select">Available genres:</label>
+        <label for="book-genre-select">Genres:</label>
         <select multiple id="book-genre-select" name="genresNames">
             <option th:each="genre : ${genreDtoList}"
                     th:value="${genre.getName()}"
-                    th:text="${genre.getName()}">genres</option>
+                    th:text="${genre.getName()}"
+                    th:selected="${bookDto.getGenresDto().contains(genre)}">genres</option>
         </select>
     </div>
 
