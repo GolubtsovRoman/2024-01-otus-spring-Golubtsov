@@ -24,3 +24,5 @@
 - hw06-jpql - ДЗ№6 Переписать приложение для хранения книг на ORM
 - hw07-spring-data-jpa - ДЗ№7 (переписать) Библиотеку на Spring Data JPA
 - hw08-spring-data-nosql - ДЗ№8 Использовать MongoDB и spring-data для хранения информации о книгах
+
+- hw10-spring-web-flow - ДЗ№10 Переписать приложение с использованием AJAX и REST-контроллеров
