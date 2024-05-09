@@ -29,45 +29,112 @@
 </head>
 <body>
 
-<form id="edit-form" action="edit.html" th:method="post" th:action="@{/edit/__${bookDto.id}__}" th:object="${bookDto}">
+<form id="edit-form" action="edit.html">
     <h3>Book Info:</h3>
 
     <div class="row">
         <label for="id-input">ID:</label>
-        <input id="id-input" name="bookId" type="text" readonly="readonly" value="1" th:value="*{id}"/>
+        <input id="id-input" name="bookId" readonly="readonly"/>
     </div>
 
     <div class="row">
         <label for="book-title-input">Title:</label>
-        <input id="book-title-input" name="title" type="text" value="Title of book" th:value="*{title}"/>
+        <input id="book-title-input" name="title" type="text"/>
     </div>
 
 
     <div class="row">
         <label for="book-author-select">Author:</label>
-        <select id="book-author-select" name="authorName">
-            <option th:each="author : ${authorDtoList}"
-                    th:value="${author.getFullName()}"
-                    th:text="${author.getFullName()}"
-                    th:selected="${author.getFullName()}==*{authorDto.getFullName()}">authors</option>
-        </select>
+        <select id="book-author-select" name="authorName"></select>
     </div>
 
     <div class="row">
         <label for="book-genre-select">Genres:</label>
-        <select multiple id="book-genre-select" name="genresNames">
-            <option th:each="genre : ${genreDtoList}"
-                    th:value="${genre.getName()}"
-                    th:text="${genre.getName()}"
-                    th:selected="${bookDto.getGenresDto().contains(genre)}">genres</option>
-        </select>
+        <select multiple id="book-genre-select" name="genresNames"></select>
     </div>
 
     <div class="row">
-        <button type="submit">Save</button>
-        <a href="list.html" th:href="@{/}"><button type="button">Cancel</button></a>
+        <button type="button" onclick="updateBook()">Save</button>
+        <a href="list.html" th:href="@{/}">
+            <button type="button">Cancel</button>
+        </a>
     </div>
 </form>
 
 </body>
 </html>
+
+<script>
+    // глупый способ в лоб, но другого я не нашел
+    const bookId = window.location.href.split('/').reverse().at(0);
+
+    fetch(`/api/book/${bookId}`, {method: 'GET'})
+        .then(response => response.json())
+        .then(jsonBook => {
+            document.getElementById('id-input').value = `${jsonBook.id}`;
+            document.getElementById('book-title-input').value = `${jsonBook.title}`;
+
+            fillAuthors(jsonBook.authorName);
+            fillGenres(jsonBook.genresNames);
+        });
+
+
+    function fillAuthors(authorName) {
+        fetch('/api/author', {method: 'GET'})
+            .then(response => response.json())
+            .then(jsonAuthors => {
+                jsonAuthors.forEach(author => {
+                    const option = document.createElement('option');
+                    option.innerHTML = `${author.fullName}`;
+                    if (author.fullName === authorName) {
+                        option.selected = true;
+                    }
+                    document.getElementById('book-author-select').appendChild(option);
+                });
+            });
+    }
+
+    function fillGenres(genresNames) {
+        fetch('/api/genre', {method: 'GET'})
+            .then(response => response.json())
+            .then(jsonGenres => {
+                jsonGenres.forEach(genre => {
+                    const option = document.createElement('option');
+                    option.innerHTML = `${genre.name}`;
+                    if (genresNames.includes(genre.name)) {
+                        option.selected = true;
+                    }
+                    document.getElementById('book-genre-select').appendChild(option);
+                });
+            });
+    }
+</script>
+
+<script>
+    function updateBook() {
+        const idInput = document.getElementById("id-input");
+        const titleInput = document.getElementById("book-title-input");
+        const authorInput = document.getElementById("book-author-select");
+        const genresInput = document.getElementById("book-genre-select");
+        const selectedGenres = [...genresInput.selectedOptions]
+            .map(option => option.value);
+
+        const book = {
+            id: idInput.value,
+            title: titleInput.value,
+            authorName: authorInput.value,
+            genresNames: selectedGenres
+        };
+
+        fetch(`/api/book/${book.id}`, {
+                method: 'PUT',
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(book)
+            }
+        )
+            .then(ignore => window.location = '/');
+    }
+</script>

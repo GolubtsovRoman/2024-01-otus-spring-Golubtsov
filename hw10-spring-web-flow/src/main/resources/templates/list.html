@@ -25,7 +25,6 @@
         }
     </style>
 </head>
-
 <body>
 
 <a href="create.html" th:href="@{/create}">Create a new book</a>
@@ -42,26 +41,28 @@
     </thead>
     <tbody id="allBooks">
     </tbody>
-    <script>
-        fetch('/api/book')
-            .then(response => response.json())
-            .then(jsonBooks => {
-                jsonBooks.forEach(book => {
-                    const tr = document.createElement('tr');
-                    tr.innerHTML = `
+</table>
+
+</body>
+
+
+<script>
+    fetch('/api/book', {method: 'GET'})
+        .then(response => response.json())
+        .then(jsonBooks => {
+            jsonBooks.forEach(book => {
+                const tr = document.createElement('tr');
+                tr.innerHTML = `
                         <td>${book.id}</td>
                         <td>${book.title}</td>
-                        <td>${book.authorDto.fullName}</td>
-                        <td>${book.genresDto.map(genre => genre.name).join(', ')}</td>
+                        <td>${book.authorName}</td>
+                        <td>${book.genresNames.join(', ')}</td>
                         <td>
                             <a href="/edit/${book.id}">Edit</a>
                             <a href="/delete/${book.id}">Delete</a>
                         </td>
                     `;
-                    document.getElementById('allBooks').appendChild(tr);
-                });
+                document.getElementById('allBooks').appendChild(tr);
             });
-    </script>
-</table>
-
-</body>
+        });
+</script>
