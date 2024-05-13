@@ -25,3 +25,4 @@
 - hw07-spring-data-jpa - ДЗ№7 (переписать) Библиотеку на Spring Data JPA
 - hw08-spring-data-nosql - ДЗ№8 Использовать MongoDB и spring-data для хранения информации о книгах
 - hw09-mvc-thymeleaf - ДЗ№9 CRUD приложение с Web UI и хранением данных в БД
+- hw10-spring-web-flow - ДЗ№10 Переписать приложение с использованием AJAX и REST-контроллеров
