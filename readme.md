@@ -26,4 +26,4 @@
 - hw08-spring-data-nosql - ДЗ№8 Использовать MongoDB и spring-data для хранения информации о книгах
 - hw09-mvc-thymeleaf - ДЗ№9 CRUD приложение с Web UI и хранением данных в БД
 - hw10-spring-web-flow - ДЗ№10 Переписать приложение с использованием AJAX и REST-контроллеров
-- hw11-spring-webflux - ДЗ11 Использовать WebFlux
+- hw11-spring-webflux - ДЗ№11 Использовать WebFlux
