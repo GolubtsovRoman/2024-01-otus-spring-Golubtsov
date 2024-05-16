@@ -20,9 +20,8 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.view;
 
-@DisplayName("BookPageController должен быть доступен только аутантифицированным пользователям и")
+@DisplayName("BookPageController должен быть доступен только аутентифицированным пользователям и")
 @WebMvcTest(BookPageController.class)
-@WithMockUser(username = "admin", authorities = {"ROLE_USER"})
 class BookPageControllerTest {
 
     @Autowired
@@ -33,6 +32,7 @@ class BookPageControllerTest {
 
     @DisplayName("в качесве стартовой страницы отображать страницу list без атрибутов")
     @Test
+    @WithMockUser(username = "admin", authorities = {"ROLE_USER"})
     void listPage() throws Exception {
         mvc.perform(get("/"))
                 .andExpect(status().isOk())
@@ -42,6 +42,7 @@ class BookPageControllerTest {
 
     @DisplayName("в качесве страницы создания книги отображать страницу create без атрибутов")
     @Test
+    @WithMockUser(username = "admin", authorities = {"ROLE_USER"})
     void createPage() throws Exception {
         mvc.perform(get("/create"))
                 .andExpect(status().isOk())
@@ -51,6 +52,7 @@ class BookPageControllerTest {
 
     @DisplayName("в качесве страницы изменения книги отображать страницу edit без атрибутов")
     @Test
+    @WithMockUser(username = "admin", authorities = {"ROLE_USER"})
     void editPage() throws Exception {
         long bookId = 1;
         BookDto bookDto = new BookDto(bookId, "title",
@@ -66,6 +68,7 @@ class BookPageControllerTest {
 
     @DisplayName("в качесве страницы удаления книги отображать страницу delete без атрибутов")
     @Test
+    @WithMockUser(username = "admin", authorities = {"ROLE_USER"})
     void deletePage() throws Exception {
         long bookId = 1;
         BookDto bookDto = new BookDto(bookId, "title",
@@ -77,6 +80,35 @@ class BookPageControllerTest {
                 .andExpect(status().isOk())
                 .andExpect(model().hasNoErrors())
                 .andExpect(view().name("delete"));
+    }
+
+
+    @DisplayName("при входе на стартовую страницу без аутентификации статус 401")
+    @Test
+    void listPageUnauthorized() throws Exception {
+        mvc.perform(get("/"))
+                .andExpect(status().isUnauthorized());
+    }
+
+    @DisplayName("при входе на страницу создания без аутентификации статус 401")
+    @Test
+    void createPageUnauthorized() throws Exception {
+        mvc.perform(get("/create"))
+                .andExpect(status().isUnauthorized());
+    }
+
+    @DisplayName("при входе на страницу изменения без аутентификации статус 401")
+    @Test
+    void editPageUnauthorized() throws Exception {
+        mvc.perform(get("/edit/1"))
+                .andExpect(status().isUnauthorized());
+    }
+
+    @DisplayName("при входе на страницу удаления без аутентификации статус 401")
+    @Test
+    void deletePageUnauthorized() throws Exception {
+        mvc.perform(get("/delete/1"))
+                .andExpect(status().isUnauthorized());
     }
 
 }
