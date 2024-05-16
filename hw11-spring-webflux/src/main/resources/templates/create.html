@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8"/>
+    <title>Create book</title>
+    <!-- Оформление взято из примера "как есть" -->
+    <style type="text/css">
+        body {
+            padding: 50px;
+        }
+
+        label {
+            display: inline-block;
+            width: 100px;
+        }
+
+        input, select {
+            width: 400px;
+        }
+
+        input:read-only {
+            background: lightgray;
+        }
+
+        .row {
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+
+<form id="create-form">
+    <h3>Create a new book:</h3>
+
+    <div class="row">
+        <label for="book-title-input">Title:</label>
+        <input id="book-title-input" name="title" type="text"/>
+    </div>
+
+    <div class="row">
+        <label for="book-author-select">Author:</label>
+        <select id="book-author-select" name="authorName"></select>
+    </div>
+
+    <div class="row">
+        <label for="book-genre-select">Genres:</label>
+        <select multiple id="book-genre-select" name="genresNames"></select>
+    </div>
+
+    <div class="row">
+        <button type="button" onclick="saveBook()">Save</button>
+        <a href="list.html" th:href="@{/}">
+            <button type="button">Cancel</button>
+        </a>
+    </div>
+</form>
+
+</body>
+
+<script>
+    fetch('/api/author', {method: 'GET'})
+        .then(response => response.json())
+        .then(jsonAuthors => {
+            jsonAuthors.forEach(author => {
+                const option = document.createElement('option');
+                option.innerHTML = `${author.fullName}`;
+                document.getElementById('book-author-select').appendChild(option);
+            });
+        });
+</script>
+
+<script>
+    fetch('/api/genre', {method: 'GET'})
+        .then(response => response.json())
+        .then(jsonGenres => {
+            jsonGenres.forEach(genre => {
+                const option = document.createElement('option');
+                option.innerHTML = `${genre.name}`;
+                document.getElementById('book-genre-select').appendChild(option);
+            });
+        });
+</script>
+
+<script>
+    function saveBook() {
+        const titleInput = document.getElementById("book-title-input");
+        const authorInput = document.getElementById("book-author-select");
+        const genresInput = document.getElementById("book-genre-select");
+        const selectedGenres = [...genresInput.selectedOptions]
+            .map(option => option.value);
+
+        const book = {
+            id: null,
+            title: titleInput.value,
+            authorName: authorInput.value,
+            genresNames: selectedGenres
+        };
+
+        fetch('/api/book', {
+                method: 'POST',
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(book)
+            }
+        )
+            .then(ignore => window.location = '/');
+    }
+</script>
