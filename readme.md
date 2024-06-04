@@ -28,3 +28,4 @@
 - hw10-spring-web-flow - ДЗ№10 Переписать приложение с использованием AJAX и REST-контроллеров
 - hw11-spring-webflux - ДЗ№11 Использовать WebFlux
 - hw12-spring-security-auth - ДЗ№12 В CRUD Web-приложение добавить механизм аутентификации
+- hw15-spring-integration - ДЗ№15 Реализовать обработку доменной сущности через каналы Spring Integration
