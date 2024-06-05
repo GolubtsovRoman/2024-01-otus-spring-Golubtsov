@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8"/>
+    <title>Edit book</title>
+    <!-- Оформление взято из примера "как есть" -->
+    <style type="text/css">
+        body {
+            padding: 50px;
+        }
+
+        label {
+            display: inline-block;
+            width: 100px;
+        }
+
+        input, select {
+            width: 400px;
+        }
+
+        input:read-only {
+            background: lightgray;
+        }
+
+        .row {
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+
+<form id="delete-form" action="delete.html">
+    <h3>Book Info:</h3>
+
+    <div class="row">
+        <label for="id-input">ID:</label>
+        <input id="id-input" name="bookId" readonly="readonly"/>
+    </div>
+
+    <div class="row">
+        <label for="book-title-input">Title:</label>
+        <input id="book-title-input" type="text" readonly="readonly"/>
+    </div>
+
+    <div class="row">
+        <label for="book-author-input">Author:</label>
+        <input id="book-author-input" type="text" readonly="readonly"/>
+    </div>
+
+    <div class="row">
+        <label for="book-genre-input">Genres:</label>
+        <input id="book-genre-input" type="text" readonly="readonly"/>
+    </div>
+
+    <h1>Do you understand what you do?!</h1>
+    <div class="row">
+        <button type="button" onclick="deleteBook()">DELETE</button>
+        <a href="list.html" th:href="@{/}"><button type="button">Cancel</button></a>
+    </div>
+</form>
+
+</body>
+</html>
+
+<script>
+    // глупый способ в лоб, но другого я не нашел
+    const bookId = window.location.href.split('/').reverse().at(0);
+
+    fetch(`/api/book/${bookId}`, {method: 'GET'})
+        .then(response => response.json())
+        .then(jsonBook => {
+            document.getElementById('id-input').value = `${jsonBook.id}`;
+            document.getElementById('book-title-input').value = `${jsonBook.title}`;
+            document.getElementById('book-author-input').value = `${jsonBook.authorName}`;
+            document.getElementById('book-genre-input').value = `${jsonBook.genresNames.join(', ')}`;
+        });
+</script>
+
+<script>
+    function deleteBook() {
+        const bookId = document.getElementById("id-input").value;
+        fetch(`/api/book/${bookId}`, {method: 'DELETE'})
+            .then(ignore => window.location = '/');
+    }
+</script>
