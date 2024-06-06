@@ -29,3 +29,4 @@
 - hw11-spring-webflux - ДЗ№11 Использовать WebFlux
 - hw12-spring-security-auth - ДЗ№12 В CRUD Web-приложение добавить механизм аутентификации
 - hw13-spring-security-oauth2 - ДЗ№13 Ввести авторизацию на основе URL и/или доменных сущностей
+- hw16-spring-actuator - ДЗ№16 Использовать метрики, healthchecks и logfile
