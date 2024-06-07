@@ -29,4 +29,5 @@
 - hw11-spring-webflux - ДЗ№11 Использовать WebFlux
 - hw12-spring-security-auth - ДЗ№12 В CRUD Web-приложение добавить механизм аутентификации
 - hw13-spring-security-oauth2 - ДЗ№13 Ввести авторизацию на основе URL и/или доменных сущностей
+- hw14-spring-batch - ДЗ№14 На основе Spring Batch разработать процедуру миграции данных из реляционного хранилища в NoSQL или наоборот
 - hw15-spring-integration - ДЗ№15 Реализовать обработку доменной сущности через каналы Spring Integration
