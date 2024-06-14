@@ -1,0 +1,44 @@
+spring:
+
+  datasource:
+    url: jdbc:h2:mem:maindb
+
+  sql:
+    init:
+      mode: always
+      data-locations: classpath:data.sql
+      schema-locations: classpath:schema.sql
+
+  jpa:
+    generate-ddl: false
+    hibernate:
+      ddl-auto: none
+
+    show-sql: true
+    properties:
+      hibernate:
+        format_sql: false
+
+  jmx:
+    enabled: true
+
+logging:
+  level:
+    root: info
+    ru.otus.hw: debug
+  file:
+    name: ./logs/app.log
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health, logfile, metrics
+  endpoint:
+    health:
+      show-details: always
+    logfile:
+      external-file: ${logging.file.name}
+  health:
+    defaults:
+      enabled: true
