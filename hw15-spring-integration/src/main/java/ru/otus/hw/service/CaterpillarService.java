@@ -30,7 +30,7 @@ public class CaterpillarService {
         int countOfCaterpillars = randomGenerator.nextInt(50, 100);
         List<Caterpillar> caterpillars = new ArrayList<>(countOfCaterpillars);
         for (int i = 0; i < countOfCaterpillars; i++) {
-            caterpillars.add( generateCaterpillar() );
+            caterpillars.add(generateCaterpillar());
         }
         return caterpillars;
     }
