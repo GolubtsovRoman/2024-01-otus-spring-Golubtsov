@@ -1,7 +1,10 @@
 spring:
 
   datasource:
-    url: jdbc:h2:mem:maindb
+    driver-class-name: org.postgresql.Driver
+    url: jdbc:postgresql://localhost:5432/maindb
+    username: postgres
+    password: postgres
 
   sql:
     init:
@@ -19,6 +22,11 @@ spring:
       hibernate:
         format_sql: false
 
+    # WARN JpaBaseConfiguration$JpaWebConfiguration : spring.jpa.open-in-view is enabled by default.
+    # Therefore, database queries may be performed during view rendering.
+    # Explicitly configure spring.jpa.open-in-view to disable this warning
+    open-in-view: false
+
   jmx:
     enabled: true
 
@@ -26,19 +34,15 @@ logging:
   level:
     root: info
     ru.otus.hw: debug
-  file:
-    name: ./logs/app.log
 
 management:
   endpoints:
     web:
       exposure:
-        include: health, logfile, metrics
+        include: health, metrics
   endpoint:
     health:
       show-details: always
-    logfile:
-      external-file: ${logging.file.name}
   health:
     defaults:
       enabled: true
