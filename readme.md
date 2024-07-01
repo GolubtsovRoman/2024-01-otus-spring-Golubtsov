@@ -33,3 +33,4 @@
 - hw15-spring-integration - ДЗ№15 Реализовать обработку доменной сущности через каналы Spring Integration
 - hw16-spring-actuator - ДЗ№16 Использовать метрики, healthchecks и logfile
 - hw17-docker - ДЗ№17 Обернуть приложение в docker-контейнер
+- hw18-spring-cloud - ДЗ№18 Обернуть внешние вызовы в Hystrix (Resilent4j)
