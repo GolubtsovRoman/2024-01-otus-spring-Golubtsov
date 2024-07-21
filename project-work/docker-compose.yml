@@ -1,0 +1,27 @@
+version: '3'
+
+
+services:
+
+#  app:
+#    build:
+#      context: .
+#      dockerfile: Dockerfile
+#    ports:
+#      - "8080:8080"
+#    environment:
+#      spring.datasource.url: jdbc:postgresql://postgres:5432/maindb
+#      spring.datasource.username: postgres
+#      spring.datasource.password: postgres
+#    depends_on:
+#      - postgres
+
+  postgres:
+    image: postgres:latest
+    restart: always
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: employees
+    ports:
+      - "5432:5432"

@@ -1,0 +1,38 @@
+server:
+  port: 8080
+  servlet:
+    context-path: /employee-management
+
+spring:
+
+  datasource:
+    driver-class-name: org.postgresql.Driver
+    url: jdbc:postgresql://localhost:5432/employees
+    username: postgres
+    password: postgres
+
+  sql:
+    init:
+      mode: always
+      data-locations: classpath:data.sql
+      schema-locations: classpath:schema.sql
+
+  jpa:
+    generate-ddl: false
+    hibernate:
+      ddl-auto: none
+
+    show-sql: true
+    properties:
+      hibernate:
+        format_sql: true
+
+    # WARN JpaBaseConfiguration$JpaWebConfiguration : spring.jpa.open-in-view is enabled by default.
+    # Therefore, database queries may be performed during view rendering.
+    # Explicitly configure spring.jpa.open-in-view to disable this warning
+    open-in-view: false
+
+springdoc:
+  swagger-ui:
+    path: /swagger-ui.html
+
