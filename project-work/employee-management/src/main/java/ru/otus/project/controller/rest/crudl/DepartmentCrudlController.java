@@ -1,4 +1,4 @@
-package ru.otus.project.controller.rest;
+package ru.otus.project.controller.rest.crudl;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -21,32 +21,34 @@ public class DepartmentCrudlController {
     private final DepartmentService departmentService;
 
 
-    @PostMapping("/department")
-    public DepartmentDto create(@RequestBody DepartmentDto departmentDto) {
+    @PostMapping("/department/{code}")
+    public DepartmentDto create(@PathVariable String code, @RequestBody DepartmentUpdateDto departmentUpdateDto) {
         return departmentService.create(
-                departmentDto.code(),
-                departmentDto.name(),
-                departmentDto.description()
+                code.toUpperCase(),
+                departmentUpdateDto.name(),
+                departmentUpdateDto.description(),
+                departmentUpdateDto.managerId()
         );
     }
 
     @GetMapping("/department/{code}")
     public DepartmentDto read(@PathVariable String code) {
-        return departmentService.findByCode(code);
+        return departmentService.findByCode(code.toUpperCase());
     }
 
     @PutMapping("/department/{code}")
     public DepartmentDto update(@PathVariable String code, @RequestBody DepartmentUpdateDto departmentUpdateDto) {
         return departmentService.update(
-                code,
+                code.toUpperCase(),
                 departmentUpdateDto.name(),
-                departmentUpdateDto.description()
+                departmentUpdateDto.description(),
+                departmentUpdateDto.managerId()
         );
     }
 
     @DeleteMapping("/department/{code}")
     public void delete(@PathVariable String code) {
-        departmentService.delete(code);
+        departmentService.delete(code.toUpperCase());
     }
 
     @GetMapping("/department")

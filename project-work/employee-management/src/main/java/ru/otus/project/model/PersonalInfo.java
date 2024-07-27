@@ -30,13 +30,13 @@ public class PersonalInfo {
     @Column(name = "full_name", nullable = false, length = 255)
     private String fullName;
 
-    @Column(name = "bday", nullable = false)
-    private LocalDate bday;
+    @Column(name = "birthdate", nullable = false)
+    private LocalDate birthdate;
 
     @Column(name = "employment_date", nullable = false)
     private LocalDate employmentDate;
 
-    @Column(name = "man", nullable = false)
-    private boolean man;
+    @Column(name = "is_man", nullable = false)
+    private boolean isMan;
 
 }

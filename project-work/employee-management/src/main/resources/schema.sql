@@ -4,46 +4,53 @@
 -- created 20.07.2024
 --
 
+DROP TABLE IF EXISTS
+    "employee",
+    "personal_info",
+    "department",
+    "office";
 
-CREATE TABLE IF NOT EXISTS "department" (
+
+
+CREATE TABLE "department"
+(
     "code"        VARCHAR(16) PRIMARY KEY,
     "name"        VARCHAR(255) NOT NULL UNIQUE,
+    "description" VARCHAR(1024),
+    "manager_id"  BIGINT
+);
+
+CREATE TABLE "office"
+(
+    "id"          BIGINT PRIMARY KEY,
+    "address"     VARCHAR NOT NULL,
+    "capacity"    INTEGER NOT NULL,
     "description" VARCHAR(1024)
 );
 
-
-CREATE TABLE IF NOT EXISTS "office" (
-    "id"       BIGSERIAL PRIMARY KEY,
-    "address"  VARCHAR NOT NULL,
-    "capacity" INTEGER NOT NULL,
-    "description" VARCHAR(1024)
-);
-
-
-CREATE TABLE IF NOT EXISTS "employee" (
-    "id"               BIGSERIAL PRIMARY KEY,
-    "personal_info_id" BIGSERIAL NOT NULL,
-    "work_info_id"     BIGSERIAL NOT NULL,
-    "account_id"       VARCHAR(64)
-);
-
-
-CREATE TABLE IF NOT EXISTS "personal_info" (
-    "id"              BIGSERIAL PRIMARY KEY,
+CREATE TABLE "personal_info"
+(
+    "id"              BIGINT PRIMARY KEY,
     "full_name"       VARCHAR(255) NOT NULL,
-    "bday"            DATE         NOT NULL,
+    "birthdate"       DATE         NOT NULL,
     "employment_date" DATE         NOT NULL,
-    "man"             BOOLEAN      NOT NULL
+    "is_man"          BOOLEAN      NOT NULL
 );
-ALTER TABLE "employee" ADD FOREIGN KEY("personal_info_id") REFERENCES "personal_info"("id") ON DELETE CASCADE;
 
-
-CREATE TABLE IF NOT EXISTS "work_info" (
-    "id"                BIGSERIAL PRIMARY KEY,
+CREATE TABLE "employee"
+(
+    "id"                BIGINT PRIMARY KEY,
+    "personal_info_id"  BIGSERIAL    NOT NULL REFERENCES "personal_info" ("id"),
     "job_title"         VARCHAR(255) NOT NULL,
-    "head_id"           BIGSERIAL REFERENCES "employee" ("id"),
+    "manager_id"        BIGINT,
     "department_code"   VARCHAR(16) REFERENCES "department" ("code"),
-    "office_id"         BIGSERIAL REFERENCES "office" ("id"),
-    "additional_number" INTEGER
+    "office_id"         BIGINT REFERENCES "office" ("id"),
+    "additional_number" INTEGER,
+    "account_id"        VARCHAR(64)
 );
-ALTER TABLE "employee" ADD FOREIGN KEY("work_info_id") REFERENCES "work_info"("id") ON DELETE CASCADE;
+
+ALTER TABLE "employee"
+    ADD CONSTRAINT fk_employee_manager_id FOREIGN KEY (manager_id) REFERENCES "employee" (id);
+
+ALTER TABLE "department"
+    ADD CONSTRAINT fk_department_manager_id FOREIGN KEY (manager_id) REFERENCES "employee" (id);

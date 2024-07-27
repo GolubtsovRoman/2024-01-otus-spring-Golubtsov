@@ -1,4 +1,4 @@
-package ru.otus.project.controller.rest;
+package ru.otus.project.controller.rest.crudl;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.DeleteMapping;

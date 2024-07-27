@@ -4,10 +4,13 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ru.otus.project.dto.DepartmentDto;
+import ru.otus.project.dto.EmployeeDto;
 import ru.otus.project.exception.EntityAlreadyExistsException;
 import ru.otus.project.exception.EntityNotFoundException;
 import ru.otus.project.model.Department;
+import ru.otus.project.model.Employee;
 import ru.otus.project.repository.DepartmentRepository;
+import ru.otus.project.repository.EmployeeRepository;
 
 import java.util.List;
 import java.util.Optional;
@@ -18,15 +21,20 @@ public class DepartmentService {
 
     private final DepartmentRepository departmentRepository;
 
+    private final EmployeeRepository employeeRepository;
+
 
     @Transactional
-    public DepartmentDto create(String code, String name, String description) {
+    public DepartmentDto create(String code, String name, String description, long managerId) {
         Optional<Department> optionalDepartment = departmentRepository.findById(code);
         if (optionalDepartment.isPresent()) {
             throw new EntityAlreadyExistsException("department with code=%s already exists".formatted(code));
         }
 
-        Department department = new Department(code, name, description);
+        Employee manager = employeeRepository.findById(managerId)
+                .orElseThrow(() -> new EntityNotFoundException("Employee with id=%d not found".formatted(managerId)));
+
+        Department department = new Department(code, name, description, manager);
         Department savedDepartment = departmentRepository.save(department);
         return DepartmentDto.fromEntity(savedDepartment);
     }
@@ -39,12 +47,15 @@ public class DepartmentService {
     }
 
     @Transactional
-    public DepartmentDto update(String code, String name, String description) {
+    public DepartmentDto update(String code, String name, String description, long managerId) {
         Department department = departmentRepository.findById(code)
                 .orElseThrow(() -> new EntityNotFoundException("Department with code=%s not found".formatted(code)));
+        Employee manager = employeeRepository.findById(managerId)
+                .orElseThrow(() -> new EntityNotFoundException("Employee with id=%d not found".formatted(managerId)));
         department.setCode(code);
         department.setName(name);
         department.setDescription(description);
+        department.setManager(manager);
 
         Department updatedDepartment = departmentRepository.save(department);
         return DepartmentDto.fromEntity(updatedDepartment);
@@ -60,6 +71,22 @@ public class DepartmentService {
         return departmentRepository.findAll()
                 .stream().map(DepartmentDto::fromEntity)
                 .toList();
+    }
+
+    @Transactional(readOnly = true)
+    public List<EmployeeDto> findAllEmployeeInDepartment(String departmentCode) {
+        Department department = departmentRepository.findById(departmentCode)
+                .orElseThrow(() -> new EntityNotFoundException("Department with code=%s not found".formatted(departmentCode)));
+        return employeeRepository.findEmployeeByDepartment(department)
+                .stream()
+                .map(EmployeeDto::fromEntity)
+                .toList();
+    }
+
+    @Transactional(readOnly = true)
+    public EmployeeDto findDepartmentManager(String departmentCode) {
+        // todo
+        return null;
     }
 
 }

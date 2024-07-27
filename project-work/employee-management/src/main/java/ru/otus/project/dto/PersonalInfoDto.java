@@ -1,8 +1,26 @@
 package ru.otus.project.dto;
 
+import ru.otus.project.model.PersonalInfo;
+
 import java.time.LocalDate;
 
 /**
  * DTO for {@link ru.otus.project.model.PersonalInfo}
  */
-public record PersonalInfoDto(long id, String fullName, LocalDate bday, LocalDate employmentDate, boolean man) { }
+public record PersonalInfoDto(long id, String fullName, LocalDate birthdate, LocalDate employmentDate, boolean isMan) {
+
+    public static PersonalInfoDto fromEntity(PersonalInfo personalInfo) {
+        if (personalInfo == null) {
+            return null;
+        }
+
+        return new PersonalInfoDto(
+                personalInfo.getId(),
+                personalInfo.getFullName(),
+                personalInfo.getBirthdate(),
+                personalInfo.getEmploymentDate(),
+                personalInfo.isMan()
+        );
+    }
+
+}
