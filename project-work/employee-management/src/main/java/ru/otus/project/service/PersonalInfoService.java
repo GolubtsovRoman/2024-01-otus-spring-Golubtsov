@@ -33,7 +33,11 @@ public class PersonalInfoService {
     }
 
     @Transactional
-    public PersonalInfoDto update(long id, String fullName, LocalDate birthdate, LocalDate employmentDate, boolean isMan) {
+    public PersonalInfoDto update(long id,
+                                  String fullName,
+                                  LocalDate birthdate,
+                                  LocalDate employmentDate,
+                                  boolean isMan) {
         PersonalInfo personalInfo = personalInfoRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("PersonalInfo with id=%d not found".formatted(id)));
 

@@ -76,7 +76,9 @@ public class DepartmentService {
     @Transactional(readOnly = true)
     public List<EmployeeDto> findAllEmployeeInDepartment(String departmentCode) {
         Department department = departmentRepository.findById(departmentCode)
-                .orElseThrow(() -> new EntityNotFoundException("Department with code=%s not found".formatted(departmentCode)));
+                .orElseThrow(
+                        () -> new EntityNotFoundException("Department with code=%s not found".formatted(departmentCode))
+                );
         return employeeRepository.findEmployeeByDepartment(department)
                 .stream()
                 .map(EmployeeDto::fromEntity)

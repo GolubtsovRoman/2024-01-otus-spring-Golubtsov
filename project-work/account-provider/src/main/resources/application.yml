@@ -1,0 +1,28 @@
+server:
+  port: 8082
+  servlet:
+    context-path: /account-provider
+
+spring:
+
+  autoconfigure:
+    exclude: org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration
+
+  data:
+    mongodb:
+      host: localhost
+      port: 27017
+      database: library
+
+mongock:
+  runner-type: InitializingBean
+  change-logs-scan-package: ru.otus.project.changelog
+  mongo-db:
+    write-concern:
+      journal: false
+    read-concern: local
+
+springdoc:
+  swagger-ui:
+    path: /swagger-ui.html
+
