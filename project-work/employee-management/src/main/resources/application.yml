@@ -5,6 +5,9 @@ server:
 
 spring:
 
+  application:
+    name: employee-management
+
   datasource:
     driver-class-name: org.postgresql.Driver
     url: jdbc:postgresql://localhost:5432/employees
@@ -36,3 +39,7 @@ springdoc:
   swagger-ui:
     path: /swagger-ui.html
 
+service:
+  account-provider:
+    base-url: http://localhost:8082/account-provider/account
+    timeout-ms: 1500

@@ -5,6 +5,9 @@ server:
 
 spring:
 
+  application:
+    name: account-provider
+
   autoconfigure:
     exclude: org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration
 
@@ -16,7 +19,7 @@ spring:
 
 mongock:
   runner-type: InitializingBean
-  change-logs-scan-package: ru.otus.project.changelog
+  change-logs-scan-package: ru.otus.project.account.changelog
   mongo-db:
     write-concern:
       journal: false
@@ -25,4 +28,3 @@ mongock:
 springdoc:
   swagger-ui:
     path: /swagger-ui.html
-
