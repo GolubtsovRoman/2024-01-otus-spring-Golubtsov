@@ -17,7 +17,7 @@
 
     <modules>
         <module>account-provider</module>
-        <module>data-generator</module>
+        <module>data-loader</module>
         <module>employee-management</module>
     </modules>
 
