@@ -7,7 +7,6 @@ import ru.otus.project.account.dto.AccountDto;
 
 import java.time.LocalDate;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -15,24 +14,19 @@ public class PasswordScheduler {
 
     private final AccountService accountService;
 
+    private final RabbitProducerService producerService;
+
 
     @Scheduled(cron = "0 8 * * *") // At 08:00 AM
     public void expirePassword() {
-        String loginsWithExpiredPassword = accountService.loginsWithExpiredPassword(LocalDate.now())
-                .stream()
-                .collect(Collectors.joining(System.lineSeparator()));
-
+        List<String> loginsWithExpiredPassword = accountService.loginsWithExpiredPassword(LocalDate.now());
         if (!loginsWithExpiredPassword.isEmpty()) {
-            // todo отпарвка во внешнюю систему
-            System.out.println("Сегодня истекают пароли у: " + System.lineSeparator() + loginsWithExpiredPassword);
+            producerService.sendExpiringAccountReport(1, loginsWithExpiredPassword);
         }
 
-        String loginsWith3daysExpiredPassword = accountService.loginsWithExpiredPassword(LocalDate.now().plusDays(3))
-                .stream()
-                .collect(Collectors.joining(System.lineSeparator()));
+        List<String> loginsWith3daysExpiredPassword = accountService.loginsWithExpiredPassword(LocalDate.now().plusDays(3));
         if (!loginsWith3daysExpiredPassword.isEmpty()) {
-            // todo отпарвка во внешнюю систему
-            System.out.println("Через 3 дня истекают пароли у: " + System.lineSeparator() + loginsWithExpiredPassword);
+            producerService.sendExpiringAccountReport(3, loginsWith3daysExpiredPassword);
         }
     }
 
@@ -42,10 +36,8 @@ public class PasswordScheduler {
                 .stream()
                 .map(AccountDto::login)
                 .toList();
-
         if (!expiredLoginAccounts.isEmpty()) {
-            // todo отпарвка во внешнюю систему
-            System.out.println("Отключено аккаутов: " + expiredLoginAccounts.size());
+            producerService.sendDisabledAccountReport(expiredLoginAccounts);
         }
     }
 

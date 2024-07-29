@@ -3,6 +3,8 @@ server:
   servlet:
     context-path: /employee-management
 
+
+
 spring:
 
   application:
@@ -35,7 +37,20 @@ spring:
     # Explicitly configure spring.jpa.open-in-view to disable this warning
     open-in-view: false
 
+  rabbitmq:
+    host: localhost
+    port: 5672
+    username: guest
+    password: guest
+
+
+
 service:
+
   account-provider:
     base-url: http://localhost:8082/account-provider/account
     timeout-ms: 1500
+
+  report-sender:
+    queues:
+      birthdays: "report-sender-birthdays"

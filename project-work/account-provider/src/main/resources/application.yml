@@ -3,6 +3,8 @@ server:
   servlet:
     context-path: /account-provider
 
+
+
 spring:
 
   application:
@@ -17,6 +19,12 @@ spring:
       port: 27017
       database: library
 
+  rabbitmq:
+    host: localhost
+    port: 5672
+    username: guest
+    password: guest
+
 mongock:
   runner-type: InitializingBean
   change-logs-scan-package: ru.otus.project.account.changelog
@@ -24,3 +32,10 @@ mongock:
     write-concern:
       journal: false
     read-concern: local
+
+service:
+
+  report-sender:
+    queues:
+      expiring-accounts: "report-sender-expiring-accounts"
+      disabled-accounts: "report-sender-disabled-accounts"

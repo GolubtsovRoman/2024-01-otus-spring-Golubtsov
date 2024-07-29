@@ -24,14 +24,24 @@ services:
       POSTGRES_PASSWORD: postgres
       POSTGRES_DB: employees
     ports:
-      - "5432:5432"
+      - '5432:5432'
 
   mongodb:
     image: mongo:latest
-    container_name: mongodb
     restart: always
     environment:
       MONGO_INITDB_DATABASE: account
     ports:
-      - "27017:27017"
+      - '27017:27017'
 
+  rabbitmq:
+    image: rabbitmq:latest
+    restart: always
+    volumes:
+      - ./deploy/rabbitmq/enabled_plugins:/etc/rabbitmq/enabled_plugins:ro,Z
+    environment:
+      - RABBITMQ_DEFAULT_PASS=guest
+      - RABBITMQ_DEFAULT_USER=guest
+    ports:
+      - '15672:15672'
+      - '5672:5672'

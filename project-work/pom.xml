@@ -10,15 +10,16 @@
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
-        <version>3.3.1</version>
+        <version>3.3.2</version>
     </parent>
 
     <packaging>pom</packaging>
 
     <modules>
         <module>account-provider</module>
-        <module>data-loader</module>
+        <module>api</module>
         <module>employee-management</module>
+        <module>report-sender</module>
     </modules>
 
     <properties>

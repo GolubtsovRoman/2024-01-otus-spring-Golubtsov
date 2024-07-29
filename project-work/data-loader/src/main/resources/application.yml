@@ -1,9 +1,0 @@
-server:
-  port: 8083
-  servlet:
-    context-path: /data-loader
-
-spring:
-
-  application:
-    name: data-loader
