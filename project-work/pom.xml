@@ -6,6 +6,8 @@
     <groupId>ru.otus.project</groupId>
     <artifactId>project-work</artifactId>
     <version>1.0</version>
+    <packaging>pom</packaging>
+    <name>project-work</name>
 
     <parent>
         <groupId>org.springframework.boot</groupId>
@@ -13,11 +15,8 @@
         <version>3.3.2</version>
     </parent>
 
-    <packaging>pom</packaging>
-
     <modules>
         <module>account-provider</module>
-        <module>api</module>
         <module>employee-management</module>
         <module>report-sender</module>
     </modules>

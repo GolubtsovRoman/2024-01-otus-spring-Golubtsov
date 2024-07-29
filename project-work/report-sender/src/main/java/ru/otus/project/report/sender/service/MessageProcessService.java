@@ -2,9 +2,9 @@ package ru.otus.project.report.sender.service;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-import ru.otus.project.api.BirthdayInfo;
-import ru.otus.project.api.DisabledAccounts;
-import ru.otus.project.api.ExpireAccounts;
+import ru.otus.project.report.sender.api.BirthdayInfo;
+import ru.otus.project.report.sender.api.DisabledAccounts;
+import ru.otus.project.report.sender.api.ExpireAccounts;
 
 import java.util.stream.Collectors;
 

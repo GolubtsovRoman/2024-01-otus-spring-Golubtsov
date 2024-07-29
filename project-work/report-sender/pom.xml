@@ -52,13 +52,6 @@
         </dependency>
 
         <dependency>
-            <groupId>ru.otus.project</groupId>
-            <artifactId>api</artifactId>
-            <version>1.0</version>
-            <scope>compile</scope>
-        </dependency>
-
-        <dependency>
             <groupId>com.fasterxml.jackson.core</groupId>
             <artifactId>jackson-databind</artifactId>
         </dependency>

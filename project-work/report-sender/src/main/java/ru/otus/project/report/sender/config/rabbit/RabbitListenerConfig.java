@@ -3,9 +3,9 @@ package ru.otus.project.report.sender.config.rabbit;
 import lombok.RequiredArgsConstructor;
 import org.springframework.amqp.rabbit.annotation.RabbitListener;
 import org.springframework.context.annotation.Configuration;
-import ru.otus.project.api.BirthdayInfo;
-import ru.otus.project.api.DisabledAccounts;
-import ru.otus.project.api.ExpireAccounts;
+import ru.otus.project.report.sender.api.BirthdayInfo;
+import ru.otus.project.report.sender.api.DisabledAccounts;
+import ru.otus.project.report.sender.api.ExpireAccounts;
 import ru.otus.project.report.sender.service.MessageProcessService;
 
 @Configuration

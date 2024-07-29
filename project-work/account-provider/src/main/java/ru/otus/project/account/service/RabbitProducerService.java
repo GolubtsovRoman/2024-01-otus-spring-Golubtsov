@@ -4,8 +4,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
-import ru.otus.project.api.DisabledAccounts;
-import ru.otus.project.api.ExpireAccounts;
+import ru.otus.project.account.api.DisabledAccounts;
+import ru.otus.project.account.api.ExpireAccounts;
 
 import java.util.List;
 

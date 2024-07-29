@@ -4,7 +4,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
-import ru.otus.project.api.BirthdayInfo;
+import ru.otus.project.employee.api.BirthdayInfo;
 
 import java.util.List;
 
