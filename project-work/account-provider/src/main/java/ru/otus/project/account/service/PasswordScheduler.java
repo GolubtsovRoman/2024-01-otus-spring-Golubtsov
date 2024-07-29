@@ -17,7 +17,7 @@ public class PasswordScheduler {
     private final RabbitProducerService producerService;
 
 
-    @Scheduled(cron = "0 8 * * *") // At 08:00 AM
+    @Scheduled(cron = "0 0 8 * * *") // At 08:00 AM
     public void expirePassword() {
         List<String> loginsWithExpiredPassword = accountService.loginsWithExpiredPassword(LocalDate.now());
         if (!loginsWithExpiredPassword.isEmpty()) {
@@ -30,7 +30,7 @@ public class PasswordScheduler {
         }
     }
 
-    @Scheduled(cron = "1 0 * * *") // At 12:01 AM
+    @Scheduled(cron = "0 1 0 * * *") // At 12:01 AM
     public void disableAccounts() {
         List<String> expiredLoginAccounts = accountService.offExpired()
                 .stream()
