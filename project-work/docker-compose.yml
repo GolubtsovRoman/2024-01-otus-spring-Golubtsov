@@ -54,7 +54,6 @@ services:
       spring.rabbitmq.port: 5672
       spring.rabbitmq.username: guest
       spring.rabbitmq.password: guest
-      service.account-provider.base-url: http://account-provider:8082/account-provider/account
     depends_on:
       - rabbitmq
 
