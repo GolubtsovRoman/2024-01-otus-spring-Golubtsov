@@ -14,7 +14,7 @@ import java.util.HexFormat;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-@Document(collection = "books")
+@Document(collection = "accounts")
 public class Account {
 
     @Id
