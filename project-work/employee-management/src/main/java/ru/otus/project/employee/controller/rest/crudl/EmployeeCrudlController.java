@@ -54,7 +54,7 @@ public class EmployeeCrudlController {
     }
 
     @DeleteMapping("/employee/{id}")
-    public void employeeDto(@PathVariable long id) {
+    public void delete(@PathVariable long id) {
         employeeService.delete(id);
     }
 
