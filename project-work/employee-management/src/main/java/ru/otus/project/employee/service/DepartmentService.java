@@ -31,10 +31,11 @@ public class DepartmentService {
             throw new EntityAlreadyExistsException("department with code=%s already exists".formatted(code));
         }
 
-        Employee manager = employeeRepository.findById(managerId)
-                .orElseThrow(() -> new EntityNotFoundException("Employee with id=%d not found".formatted(managerId)));
+        long foundManagerId = employeeRepository.findById(managerId)
+                .orElseThrow(() -> new EntityNotFoundException("Employee with id=%d not found".formatted(managerId)))
+                .getManagerId();
 
-        Department department = new Department(code, name, description, manager);
+        Department department = new Department(code, name, description, foundManagerId);
         Department savedDepartment = departmentRepository.save(department);
         return DepartmentDto.fromEntity(savedDepartment);
     }
@@ -50,12 +51,13 @@ public class DepartmentService {
     public DepartmentDto update(String code, String name, String description, long managerId) {
         Department department = departmentRepository.findById(code)
                 .orElseThrow(() -> new EntityNotFoundException("Department with code=%s not found".formatted(code)));
-        Employee manager = employeeRepository.findById(managerId)
-                .orElseThrow(() -> new EntityNotFoundException("Employee with id=%d not found".formatted(managerId)));
+        long foundManagerId = employeeRepository.findById(managerId)
+                .orElseThrow(() -> new EntityNotFoundException("Employee with id=%d not found".formatted(managerId)))
+                .getManagerId();
         department.setCode(code);
         department.setName(name);
         department.setDescription(description);
-        department.setManager(manager);
+        department.setManagerId(foundManagerId);
 
         Department updatedDepartment = departmentRepository.save(department);
         return DepartmentDto.fromEntity(updatedDepartment);

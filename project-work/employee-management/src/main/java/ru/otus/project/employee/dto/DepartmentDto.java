@@ -3,9 +3,9 @@ package ru.otus.project.employee.dto;
 import ru.otus.project.employee.model.Department;
 
 /**
- * DTO for {@link ru.otus.project.model.Department}
+ * DTO for {@link ru.otus.project.employee.model.Department}
  */
-public record DepartmentDto(String code, String name, String description, EmployeeDto employeeDto) {
+public record DepartmentDto(String code, String name, String description, long managerId) {
 
     public static DepartmentDto fromEntity(Department department) {
         if (department == null) {
@@ -16,7 +16,7 @@ public record DepartmentDto(String code, String name, String description, Employ
                 department.getCode(),
                 department.getName(),
                 department.getDescription(),
-                EmployeeDto.fromEntity(department.getManager()));
+                department.getManagerId());
     }
 
 }

@@ -5,7 +5,7 @@ import ru.otus.project.employee.model.PersonalInfo;
 import java.time.LocalDate;
 
 /**
- * DTO for {@link ru.otus.project.model.PersonalInfo}
+ * DTO for {@link ru.otus.project.employee.model.PersonalInfo}
  */
 public record PersonalInfoDto(long id, String fullName, LocalDate birthdate, LocalDate employmentDate, boolean isMan) {
 

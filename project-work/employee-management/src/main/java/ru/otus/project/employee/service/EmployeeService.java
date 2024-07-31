@@ -44,7 +44,7 @@ public class EmployeeService {
                 0,
                 personalInfoById(personalInfoId),
                 jobTitle,
-                employeeByIdOrNull(managerId),
+                managerId,
                 departmentByCodeOrNull(departmentCode),
                 officeByIdOrNull(officeId),
                 additionalNumber,
@@ -76,7 +76,7 @@ public class EmployeeService {
 
         employee.setPersonalInfo(personalInfoById(personalInfoId));
         employee.setJobTitle(jobTitle);
-        employee.setManagerEmployee(employeeByIdOrNull(managerId));
+        employee.setManagerId(managerId);
         employee.setDepartment(departmentByCodeOrNull(departmentCode));
         employee.setOffice(officeByIdOrNull(officeId));
         employee.setAdditionalNumber(additionalNumber);
@@ -102,13 +102,15 @@ public class EmployeeService {
 
     @Transactional(readOnly = true)
     public EmployeeDto findManagerById(long id) {
-        Employee managerEmployee = employeeRepository.findById(id)
+        Long managerId = employeeRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("Employee with id=%d not found".formatted(id)))
-                .getManagerEmployee();
+                .getManagerId();
 
-        if (managerEmployee == null) {
+        if (managerId == null) {
             return null;
         }
+        Employee managerEmployee = employeeRepository.findById(managerId)
+                .orElseThrow(() -> new EntityNotFoundException("Employee with id=%d not found".formatted(managerId)));
         return EmployeeDto.fromEntity(managerEmployee);
     }
 

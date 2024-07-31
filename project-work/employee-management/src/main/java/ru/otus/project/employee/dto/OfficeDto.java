@@ -3,7 +3,7 @@ package ru.otus.project.employee.dto;
 import ru.otus.project.employee.model.Office;
 
 /**
- * DTO for {@link ru.otus.project.model.Office}
+ * DTO for {@link ru.otus.project.employee.model.Office}
  */
 public record OfficeDto(long id, String address, int capacity, String description) {
 
